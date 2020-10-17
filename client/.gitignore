@@ -24,3 +24,6 @@
 build
 web_modules
 node_modules
+*.key
+*.pem
+*.crt
