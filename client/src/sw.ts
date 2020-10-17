@@ -21,13 +21,4 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import './error-handler'
-import { Toast } from 'bootstrap'
-
-Array.from(document.querySelectorAll('.toast'))
-.forEach(toastNode => new Toast(toastNode))
-
-window.addEventListener('load', async () => {
-    let registration = await navigator.serviceWorker.register('/_dist_/sw.js')
-    console.log(registration)
-})
+export {}
