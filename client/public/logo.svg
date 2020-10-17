@@ -1,3 +1,26 @@
+<!--
+projektwahl - Diese Software kann eine Projektwahl verwalten, wie sie beispielsweise für eine Projektwoche benötigt wird.
+
+Copyright (C) 2020 Moritz Hedtke <Moritz.Hedtke@t-online.de>
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU Affero General Public License as published by the Free
+Software Foundation, either version 3 of the License, or (at your option)
+any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
+details.
+
+You should have received a copy of the GNU Affero General Public License along
+with this program. If not, see <https://www.gnu.org/licenses/>.
+
+
+SPDX-FileCopyrightText: 2020 Moritz Hedtke <Moritz.Hedtke@t-online.de>
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <path fill="#E44D26" d="M107.6 470.9l-33-370.3h362.8l-33.1 370.2L255.8 512z"/>
   <path fill="#F16529" d="M256 480.5l120-33.3 28.3-316.3H256z"/>
