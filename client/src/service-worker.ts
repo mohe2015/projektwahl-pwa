@@ -25,6 +25,9 @@
 declare var self: ServiceWorkerGlobalScope;
 export {};
 
+// TODO https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerGlobalScope/skipWaiting
+// TODO https://developer.mozilla.org/en-US/docs/Web/API/Clients/claim
+
 self.addEventListener('install', (event) => {
   console.log('install {');
   event.waitUntil(
@@ -61,4 +64,16 @@ self.addEventListener('fetch', (event) => {
   if (url.origin == location.origin && url.pathname == '/dog.svg') {
     event.respondWith((async () => (await caches.match('/cat.svg'))!)());
   }
+})
+
+self.addEventListener('message', (event) => {
+
+})
+
+self.addEventListener('sync', (event) => {
+
+})
+
+self.addEventListener('push', (event) => {
+
 })
