@@ -21,14 +21,26 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-export {}
+export {};
 
 window.addEventListener('error', (event) => {
-    console.error(event)
-    alert('Ein unerwarteter Fehler ist aufgetreten: ' + event.message + ' ' + event.filename + ':' + event.lineno + ':' + event.colno)
-})
+  console.error(event);
+  alert(
+    'Ein unerwarteter Fehler ist aufgetreten: ' +
+      event.message +
+      ' ' +
+      event.filename +
+      ':' +
+      event.lineno +
+      ':' +
+      event.colno,
+  );
+});
 
 window.addEventListener('unhandledrejection', (event) => {
-    console.error(event)
-    alert('Ein unerwarteter Fehler in asynchronem Code ist aufgetreten: ' + event.reason)
-})
+  console.error(event);
+  alert(
+    'Ein unerwarteter Fehler in asynchronem Code ist aufgetreten: ' +
+      event.reason,
+  );
+});

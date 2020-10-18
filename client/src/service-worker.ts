@@ -22,32 +22,33 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 // https://github.com/microsoft/TypeScript/issues/11781
-declare var self: ServiceWorkerGlobalScope; export {};
+declare var self: ServiceWorkerGlobalScope;
+export {};
 
 self.addEventListener('install', (event) => {
-    console.log("install {")
-    event.waitUntil(
-        (async () => {
-            caches.open('v1').then((cache) => {
-                return cache.addAll([
-                    "/index.html"
-                ])
-            })
-        })()
-    )
-    console.log("} install")
-})
+  console.log('install {');
+  event.waitUntil(
+    (async () => {
+      caches.open('v1').then((cache) => {
+        return cache.addAll(['/index.html']);
+      });
+    })(),
+  );
+  console.log('} install');
+});
 
 self.addEventListener('activate', (event) => {
-    var cacheKeeplist = ['v1'];
+  var cacheKeeplist = ['v1'];
 
-    event.waitUntil(
+  event.waitUntil(
     caches.keys().then((keyList) => {
-        return Promise.all(keyList.map((key) => {
-        if (cacheKeeplist.indexOf(key) === -1) {
+      return Promise.all(
+        keyList.map((key) => {
+          if (cacheKeeplist.indexOf(key) === -1) {
             return caches.delete(key);
-        }
-        }));
-    })
-    );
-})
+          }
+        }),
+      );
+    }),
+  );
+});

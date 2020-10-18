@@ -1,13 +1,15 @@
 {
-    "name": "Projektwahl",
-    "short_name": "Projektwahl",
-    "description": "Diese Software kann eine Projektwahl verwalten, wie sie beispielsweise für eine Projektwoche benötigt wird.",
-    "display": "minimal-ui",
-    "scope": "/",
-    "start_url": "https://localhost:8080/",
-    "icons": [{
+  "name": "Projektwahl",
+  "short_name": "Projektwahl",
+  "description": "Diese Software kann eine Projektwahl verwalten, wie sie beispielsweise für eine Projektwoche benötigt wird.",
+  "display": "minimal-ui",
+  "scope": "/",
+  "start_url": "https://localhost:8080/",
+  "icons": [
+    {
       "src": "logo.svg",
       "sizes": "512x512",
       "type": "image/svg+xml"
-    }]
-  }
+    }
+  ]
+}
