@@ -52,3 +52,13 @@ self.addEventListener('activate', (event) => {
     }),
   );
 });
+
+self.addEventListener('fetch', (event) => {
+  const url = new URL(event.request.url);
+
+  // serve the cat SVG from the cache if the request is
+  // same-origin and the path is '/dog.svg'
+  if (url.origin == location.origin && url.pathname == '/dog.svg') {
+    event.respondWith((async () => (await caches.match('/cat.svg'))!)());
+  }
+})
