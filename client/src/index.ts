@@ -28,6 +28,6 @@ Array.from(document.querySelectorAll('.toast'))
 .forEach(toastNode => new Toast(toastNode))
 
 window.addEventListener('load', async () => {
-    let registration = await navigator.serviceWorker.register('/_dist_/sw.js')
-    console.log(registration)
+    //let registration = await navigator.serviceWorker.register('/sw.js')
+    //console.log(registration)
 })
