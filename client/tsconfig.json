@@ -3,6 +3,7 @@
   "compilerOptions": {
     "module": "esnext",
     "target": "esnext",
+    "lib": ["ESNext", "WebWorker"],
     "moduleResolution": "node",
     "jsx": "preserve",
     "allowSyntheticDefaultImports": true,
