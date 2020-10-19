@@ -93,7 +93,7 @@ self.addEventListener('fetch', (event) => {
 
         let arr = text.split("SPECIFIC_SELECTOR")
 
-        
+
 
         return templateHtml
       })())

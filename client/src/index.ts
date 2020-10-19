@@ -23,7 +23,8 @@
  */
 import './error-handler';
 import 'bootstrap';
-
+import {html, render} from 'lit-html';
+/*
 window.addEventListener('load', async () => {
   if ('serviceWorker' in navigator) {
     let registration = await navigator.serviceWorker.register(
@@ -32,10 +33,12 @@ window.addEventListener('load', async () => {
     console.log(registration);
   }
 });
+*/
+// This is a lit-html template function. It returns a lit-html template.
+const helloTemplate = (name: string) => html`<div>Hello ${name}!</div>`;
 
-const test = (templateString: TemplateStringsArray, ...templateValues: any[]) => {
-  console.log(templateString)
-  console.log(templateValues)
-}
+// This renders <div>Hello Steve!</div> to the document body
+render(helloTemplate('Steve'), document.body);
 
-test`hello, this is a ${"test"}, ${1}, ${new Date()}`
+// This updates to <div>Hello Kevin!</div>, but only updates the ${name} part
+render(helloTemplate('Kevin'), document.body);
