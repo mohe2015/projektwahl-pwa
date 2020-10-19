@@ -28,7 +28,7 @@ export {};
 // TODO https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerGlobalScope/skipWaiting
 // TODO https://developer.mozilla.org/en-US/docs/Web/API/Clients/claim
 
-const mainCache = 'static-v3'
+const mainCache = 'static-v34'
 
 self.addEventListener('install', (event) => {
   console.log("install")
@@ -81,9 +81,25 @@ self.addEventListener('fetch', (event) => {
   console.log('fetch {');
   const url = new URL(event.request.url);
 
-  new Response('<p>Hello from your friendly neighbourhood service worker!</p>', {
-    headers: { 'Content-Type': 'text/html' }
-  });
+  
+
+
+  
+  if (url.origin == location.origin && url.pathname == '/login') {
+    event.respondWith(
+      (async () => {
+        let templateHtml = (await caches.match('/index.html'))!
+        let text = await templateHtml.text()
+
+        let arr = text.split("SPECIFIC_SELECTOR")
+
+        
+
+        return templateHtml
+      })())
+  }
+
+
 
   // serve the cat SVG from the cache if the request is
   // same-origin and the path is '/dog.svg'

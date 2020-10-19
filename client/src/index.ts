@@ -32,3 +32,10 @@ window.addEventListener('load', async () => {
     console.log(registration);
   }
 });
+
+const test = (templateString: TemplateStringsArray, ...templateValues: any[]) => {
+  console.log(templateString)
+  console.log(templateValues)
+}
+
+test`hello, this is a ${"test"}, ${1}, ${new Date()}`
