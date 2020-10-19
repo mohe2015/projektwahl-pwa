@@ -22,15 +22,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import './error-handler';
-import { Toast } from 'bootstrap';
-
-Array.from(document.querySelectorAll('.toast')).forEach(
-  (toastNode) => new Toast(toastNode),
-);
+import 'bootstrap';
 
 window.addEventListener('load', async () => {
-  let registration = await navigator.serviceWorker.register(
-    '/service-worker.js',
-  );
-  console.log(registration);
+  if ('serviceWorker' in navigator) {
+    let registration = await navigator.serviceWorker.register(
+      '/service-worker.js',
+    );
+    console.log(registration);
+  }
 });

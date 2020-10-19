@@ -28,12 +28,27 @@ export {};
 // TODO https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerGlobalScope/skipWaiting
 // TODO https://developer.mozilla.org/en-US/docs/Web/API/Clients/claim
 
+const mainCache = 'static-v3'
+
 self.addEventListener('install', (event) => {
+  console.log("install")
+
+  // don't do this is two different service workers running at the same time would break things
+  self.skipWaiting()
+
   event.waitUntil(
     (async () => {
-      console.log('install {');
-      let cache = await caches.open('v1')
-      await cache.addAll(['/index.html']);
+      let cache = await caches.open(mainCache)
+      await cache.addAll([
+        '/index.html',
+        '/web_modules/bootstrap/dist/css/bootstrap.css',
+        '/index.css',
+        '/index.js',
+        '/error-handler.js',
+        '/web_modules/bootstrap.js',
+        '/manifest.webmanifest',
+        '/logo.svg',
+      ]);
       console.log('} install');
     })(),
   );
@@ -41,11 +56,14 @@ self.addEventListener('install', (event) => {
 
 
 self.addEventListener('activate', (event) => {
-  var cacheKeeplist = ['v1'];
+  console.log("activate {")
+  var cacheKeeplist = [mainCache];
 
   event.waitUntil(
     (async () => {
-      console.log('activate {');
+      // don't do this if this service worker is not backwards compatible
+      await self.clients.claim()
+
       let keyList = await caches.keys();
       await Promise.all(
         keyList.map((key) => {
@@ -63,11 +81,28 @@ self.addEventListener('fetch', (event) => {
   console.log('fetch {');
   const url = new URL(event.request.url);
 
+  new Response('<p>Hello from your friendly neighbourhood service worker!</p>', {
+    headers: { 'Content-Type': 'text/html' }
+  });
+
   // serve the cat SVG from the cache if the request is
   // same-origin and the path is '/dog.svg'
   if (url.origin == location.origin && url.pathname == '/dog.svg') {
     event.respondWith((async () => (await caches.match('/cat.svg'))!)());
   }
+
+  event.respondWith(
+    (async () => {
+      let resp = await caches.match(event.request)
+      if (resp) return resp
+      
+      let response = await fetch(event.request)
+      const cache = await caches.open(mainCache);
+      cache.put(event.request, response.clone());
+      return response; 
+    })()
+  );
+
   console.log('} fetch');
 })
 

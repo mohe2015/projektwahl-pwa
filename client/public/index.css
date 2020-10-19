@@ -21,19 +21,3 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-@import 'bootstrap/dist/css/bootstrap.css';
-
-#img {
-  display: block;
-  margin: auto;
-  height: 128px;
-  width: 128px;
-  padding: 2rem;
-}
-
-#canvas {
-  display: block;
-  margin: 2rem auto;
-  width: 540px;
-  height: 540px;
-}
