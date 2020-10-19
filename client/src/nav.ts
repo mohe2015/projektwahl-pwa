@@ -23,7 +23,7 @@
  */
 import {html, render} from 'lit-html';
 
-export const navTemplate = () => html`
+export const navTemplate = (loggedIn: boolean) => html`
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 <div class="container-fluid">
   <a class="navbar-brand" href="#">Projektwahl</a>
@@ -45,27 +45,27 @@ export const navTemplate = () => html`
           >Startseite</a
         >
       </li>
-      <li class="nav-item">
+      ${loggedIn ? html`<li class="nav-item">
         <a class="nav-link" href="#">Projekte</a>
-      </li>
-      <li class="nav-item">
+      </li>` : null}
+      ${loggedIn ? html`<li class="nav-item">
         <a class="nav-link" href="#">Lehrer</a>
-      </li>
-      <li class="nav-item">
+      </li>` : null}
+      ${loggedIn ? html`<li class="nav-item">
         <a class="nav-link" href="#">Nutzer</a>
-      </li>
-      <li class="nav-item">
+      </li>` : null}
+      ${loggedIn ? html`<li class="nav-item">
         <a class="nav-link" href="#">Wahl</a>
-      </li>
-      <li class="nav-item">
+      </li>` : null}
+      ${loggedIn ? html`<li class="nav-item">
         <a class="nav-link" href="#">Wahl beenden / starten</a>
-      </li>
-      <li class="nav-item">
+      </li>` : null}
+      ${!loggedIn ? html`<li class="nav-item">
         <a class="nav-link" href="/login">anmelden</a>
-      </li>
-      <li class="nav-item">
+      </li>` : null}
+      ${loggedIn ? html`<li class="nav-item">
         <a class="nav-link" href="#">Passwort ändern</a>
-      </li>
+      </li>` : null}
     </ul>
   </div>
 </div>

@@ -21,17 +21,8 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import './error-handler';
-import './router'
-import 'bootstrap';
+import {html, render} from 'lit-html';
 
-/*
-window.addEventListener('load', async () => {
-  if ('serviceWorker' in navigator) {
-    let registration = await navigator.serviceWorker.register(
-      '/service-worker.js',
-    );
-    console.log(registration);
-  }
-});
-*/
+export const loginTemplate = () => html`
+
+`
