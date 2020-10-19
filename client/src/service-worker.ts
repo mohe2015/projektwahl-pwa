@@ -29,34 +29,38 @@ export {};
 // TODO https://developer.mozilla.org/en-US/docs/Web/API/Clients/claim
 
 self.addEventListener('install', (event) => {
-  console.log('install {');
   event.waitUntil(
     (async () => {
-      caches.open('v1').then((cache) => {
-        return cache.addAll(['/index.html']);
-      });
+      console.log('install {');
+      let cache = await caches.open('v1')
+      await cache.addAll(['/index.html']);
+      console.log('} install');
     })(),
   );
-  console.log('} install');
 });
+
 
 self.addEventListener('activate', (event) => {
   var cacheKeeplist = ['v1'];
 
   event.waitUntil(
-    caches.keys().then((keyList) => {
-      return Promise.all(
+    (async () => {
+      console.log('activate {');
+      let keyList = await caches.keys();
+      await Promise.all(
         keyList.map((key) => {
           if (cacheKeeplist.indexOf(key) === -1) {
             return caches.delete(key);
           }
         }),
       );
-    }),
+      console.log('} activate')
+    })()
   );
 });
 
 self.addEventListener('fetch', (event) => {
+  console.log('fetch {');
   const url = new URL(event.request.url);
 
   // serve the cat SVG from the cache if the request is
@@ -64,16 +68,18 @@ self.addEventListener('fetch', (event) => {
   if (url.origin == location.origin && url.pathname == '/dog.svg') {
     event.respondWith((async () => (await caches.match('/cat.svg'))!)());
   }
+  console.log('} fetch');
 })
 
 self.addEventListener('message', (event) => {
+  console.log("message {")
 
-})
 
-self.addEventListener('sync', (event) => {
-
+  console.log("} message")
 })
 
 self.addEventListener('push', (event) => {
+  console.log("push {")
 
+  console.log("} push")
 })
