@@ -23,7 +23,9 @@
  */
 import './error-handler';
 import 'bootstrap';
+// https://github.com/Polymer/lit-html/pull/1347
 import {html, render} from 'lit-html';
+import { navTemplate } from './nav';
 /*
 window.addEventListener('load', async () => {
   if ('serviceWorker' in navigator) {
@@ -35,10 +37,14 @@ window.addEventListener('load', async () => {
 });
 */
 // This is a lit-html template function. It returns a lit-html template.
-const helloTemplate = (name: string) => html`<div>Hello ${name}!</div>`;
+const helloTemplate = (name: string) => html`${navTemplate()}<div>Hello ${name}!</div>`;
+
+const result = helloTemplate('Steve')
+
+console.log(result)
 
 // This renders <div>Hello Steve!</div> to the document body
-render(helloTemplate('Steve'), document.body);
+render(result, document.body);
 
 // This updates to <div>Hello Kevin!</div>, but only updates the ${name} part
 render(helloTemplate('Kevin'), document.body);
