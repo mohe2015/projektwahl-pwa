@@ -26,6 +26,10 @@ import { html, render } from 'lit-html';
 import { loginTemplate } from './login';
 import { navTemplate } from './nav';
 
+const notFoundTemplate = () => html`
+<h1 class="text-center display-1">404 Nicht gefunden</h1>
+`
+
 document.addEventListener(
   'click',
   (event) => {
@@ -47,21 +51,28 @@ document.addEventListener(
   },
 );
 
-const navigate = async (url: string, state: any) => {
+const navigate = (url: string, state: any) => {
   history.pushState(state, document.title, url);
 
   update(url, state);
 };
 
-const update = async (url: string, state: any) => {
-  render(await template(url, state), document.body);
+const contentElement = document.querySelector<HTMLDivElement>('#content')!
+
+const update = (url: string, state: any) => {
+  let result = template(url, state)
+  render(result, contentElement);
 };
 
-const template = async (url: string, state: any) => {
+const template = (url: string, state: any) => {
   let result = url.match(/login(.+)/);
   if (result) return loginTemplate();
+
+
+
+  return notFoundTemplate();
 };
 
 update(document.location.pathname, null);
 
-const currentRouteTemplate = (pathname) => {};
+const currentRouteTemplate = (pathname: string) => {};
