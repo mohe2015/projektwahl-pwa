@@ -23,6 +23,40 @@
  */
 import {html, render} from 'lit-html';
 
-export const loginTemplate = () => html`
+const loginSubmitHandler = (event: Event) => {
+    event.preventDefault()
+    console.log(event)
 
+
+    let form = event.target as HTMLFormElement
+    let usernameInput = form.querySelector<HTMLInputElement>("#username")
+    let passwordInput = form.querySelector<HTMLInputElement>("#password")
+
+    const formData = new FormData(form)
+
+    passwordInput?.setCustomValidity("fdslifh")
+
+    return false
+}
+
+const test = (event: Event) => {
+    let input = event.target as HTMLInputElement
+    input.setCustomValidity("")
+}
+
+export const loginTemplate = () => html`
+<div class="container">
+    <h1 class="text-center">Anmelden</h1>
+    <form @submit=${loginSubmitHandler}>
+        <div class="mb-3">
+            <label for="username" class="form-label">Benutzername:</label>
+            <input @input=${test} type="text" required class="form-control" id="username" autocomplete="username">
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Passwort:</label>
+            <input @input=${test} type="password" required class="form-control" id="password" autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn btn-primary">Anmelden</button>
+    </form>
+</div>
 `

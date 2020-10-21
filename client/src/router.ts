@@ -26,7 +26,7 @@ import { html, render } from 'lit-html';
 import { loginTemplate } from './login';
 import { navTemplate } from './nav';
 
-const notFoundTemplate = () => html`
+const notFoundTemplate = (loggedIn: boolean) => html`
 <h1 class="text-center display-1">404 Nicht gefunden</h1>
 `
 
@@ -39,8 +39,7 @@ document.addEventListener(
       if (a) {
         if (a.origin === window.location.origin) {
           event.preventDefault();
-          // @ts-expect-error
-          this.navbar.hide();
+          //this.navbar.hide();
           navigate(a.href, null);
         }
       }
@@ -60,17 +59,20 @@ const navigate = (url: string, state: any) => {
 const contentElement = document.querySelector<HTMLDivElement>('#content')!
 
 const update = (url: string, state: any) => {
-  let result = template(url, state)
+  let result = html`
+    ${navTemplate(false)}
+    ${template(url, state, false)}
+    `
   render(result, contentElement);
 };
 
-const template = (url: string, state: any) => {
-  let result = url.match(/login(.+)/);
+const template = (url: string, state: any, loggedIn: boolean) => {
+  let result = url.match(/login\/?/);
   if (result) return loginTemplate();
 
 
 
-  return notFoundTemplate();
+  return notFoundTemplate(loggedIn);
 };
 
 update(document.location.pathname, null);
