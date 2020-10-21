@@ -25,21 +25,34 @@ import {html, render} from 'lit-html';
 
 const loginSubmitHandler = (event: Event) => {
     event.preventDefault()
-    console.log(event)
-
 
     let form = event.target as HTMLFormElement
-    let usernameInput = form.querySelector<HTMLInputElement>("#username")
-    let passwordInput = form.querySelector<HTMLInputElement>("#password")
+    let fieldset = form.querySelector<HTMLFieldSetElement>("fieldset")!
+    let usernameInput = form.querySelector<HTMLInputElement>("#username")!
+    let passwordInput = form.querySelector<HTMLInputElement>("#password")!
+   
+    const formData = new FormData(form);
 
-    const formData = new FormData(form)
+    // @ts-expect-error
+    for (var pair of formData.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
+    }
 
-    passwordInput?.setCustomValidity("fdslifh")
+    //fieldset.disabled = true;
 
-    return false
+    (async () => {
+        const response = await fetch("/api/0.1/login", {
+            method: 'POST',
+            body: formData
+        })
+    
+        passwordInput.setCustomValidity("fdslifh")
+    
+        fieldset.disabled = false;
+    })()
 }
 
-const test = (event: Event) => {
+const clearCustomValidity = (event: Event) => {
     let input = event.target as HTMLInputElement
     input.setCustomValidity("")
 }
@@ -48,15 +61,17 @@ export const loginTemplate = () => html`
 <div class="container">
     <h1 class="text-center">Anmelden</h1>
     <form @submit=${loginSubmitHandler}>
-        <div class="mb-3">
-            <label for="username" class="form-label">Benutzername:</label>
-            <input @input=${test} type="text" required class="form-control" id="username" autocomplete="username">
-        </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Passwort:</label>
-            <input @input=${test} type="password" required class="form-control" id="password" autocomplete="current-password">
-        </div>
-        <button type="submit" class="btn btn-primary">Anmelden</button>
+        <fieldset>
+            <div class="mb-3">
+                <label for="username" class="form-label">Benutzername:</label>
+                <input @input=${clearCustomValidity} type="text" required class="form-control" id="username" autocomplete="username">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Passwort:</label>
+                <input @input=${clearCustomValidity} type="password" required class="form-control" id="password" autocomplete="current-password">
+            </div>
+            <button type="submit" class="btn btn-primary">Anmelden</button>
+        </fieldset>
     </form>
 </div>
 `
