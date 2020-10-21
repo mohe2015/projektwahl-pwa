@@ -36,14 +36,16 @@ const loginSubmitHandler = (event: Event) => {
     fieldset.disabled = true;
 
     (async () => {
-        const response = await fetch("/api/0.1/login", {
-            method: 'POST',
-            body: formData
-        })
+        try {
+            const response = await fetch("/api/0.1/login", {
+                method: 'POST',
+                body: formData
+            })
     
-        passwordInput.setCustomValidity("fdslifh")
-    
-        fieldset.disabled = false;
+            passwordInput.setCustomValidity("fdslifh")
+        } finally {    
+            fieldset.disabled = false;
+        }
     })()
 }
 
