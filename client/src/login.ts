@@ -33,12 +33,7 @@ const loginSubmitHandler = (event: Event) => {
    
     const formData = new FormData(form);
 
-    // @ts-expect-error
-    for (var pair of formData.entries()) {
-        console.log(pair[0] + ': ' + pair[1]);
-    }
-
-    //fieldset.disabled = true;
+    fieldset.disabled = true;
 
     (async () => {
         const response = await fetch("/api/0.1/login", {
@@ -64,11 +59,11 @@ export const loginTemplate = () => html`
         <fieldset>
             <div class="mb-3">
                 <label for="username" class="form-label">Benutzername:</label>
-                <input @input=${clearCustomValidity} type="text" required class="form-control" id="username" autocomplete="username">
+                <input @input=${clearCustomValidity} type="text" required class="form-control" id="username" name="username" autocomplete="username">
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Passwort:</label>
-                <input @input=${clearCustomValidity} type="password" required class="form-control" id="password" autocomplete="current-password">
+                <input @input=${clearCustomValidity} type="password" required class="form-control" id="password" name="password" autocomplete="current-password">
             </div>
             <button type="submit" class="btn btn-primary">Anmelden</button>
         </fieldset>
