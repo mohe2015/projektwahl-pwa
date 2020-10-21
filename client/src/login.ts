@@ -41,6 +41,8 @@ const loginSubmitHandler = (event: Event) => {
                 method: 'POST',
                 body: formData
             })
+
+            let json = await response.json()
     
             passwordInput.setCustomValidity("fdslifh")
         } catch (error) {
