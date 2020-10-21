@@ -43,6 +43,8 @@ const loginSubmitHandler = (event: Event) => {
             })
     
             passwordInput.setCustomValidity("fdslifh")
+        } catch (error) {
+            alert(error)
         } finally {    
             fieldset.disabled = false;
         }
