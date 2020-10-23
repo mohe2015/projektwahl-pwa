@@ -4,12 +4,16 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
+    "start": "ts-node src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "AGPL-3.0-or-later",
   "dependencies": {
-    "node-ts": "^5.1.0",
     "wrtc": "^0.4.6"
+  },
+  "devDependencies": {
+    "node-ts": "^5.1.0",
+    "ts-node-dev": "^1.0.0"
   }
 }
