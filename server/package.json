@@ -9,6 +9,7 @@
   "author": "",
   "license": "AGPL-3.0-or-later",
   "dependencies": {
+    "node-ts": "^5.1.0",
     "wrtc": "^0.4.6"
   }
 }

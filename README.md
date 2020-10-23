@@ -24,6 +24,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 # projektwahl-pwa
 [WORK-IN-PROGRESS] Diese Software kann eine Projektwahl verwalten, wie sie beispielsweise für eine Projektwoche benötigt wird.
 
+docker run -it -v $(pwd):/tmp/repo -w /tmp/repo node /bin/bash
+npm install
+
+nix-shell --pure -p git cmake gcc nodejs-15_x python38 cacert curl
+
+
 
 https://github.com/mohe2015/projektwahl/blob/main/src/server/index.ts
 https://github.com/mohe2015/projektwahl/blob/main/src/server/server.ts
