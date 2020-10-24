@@ -31,7 +31,7 @@
           devShell = pkgs.mkShell {
             buildInputs = [
               pkgs.reuse
-              pkgs.nodejs-14_x
+              pkgs.nodejs-15_x
             ];
 
             shellHook = ''
