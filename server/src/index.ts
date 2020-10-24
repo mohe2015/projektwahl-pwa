@@ -26,6 +26,7 @@ import { Http2SecureServer, ServerHttp2Stream, IncomingHttpHeaders, createSecure
 import { readFileSync } from 'fs';
 import { parse } from "url";
 import './web-of-trust.js';
+import {  } from '@dev.mohe/indexeddb';
 
 // https://nodejs.org/api/http2.html
 
