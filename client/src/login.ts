@@ -37,6 +37,11 @@ const loginSubmitHandler = (event: Event) => {
 
     (async () => {
         try {
+            console.log("generating certificate...")
+
+
+
+
             const response = await fetch("/api/0.1/login", {
                 method: 'POST',
                 body: formData

@@ -21,18 +21,25 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import './error-handler';
-import './router'
-import 'bootstrap';
-import './web-of-trust';
 
-/*
-window.addEventListener('load', async () => {
-  if ('serviceWorker' in navigator) {
-    let registration = await navigator.serviceWorker.register(
-      '/service-worker.js',
-    );
-    console.log(registration);
-  }
-});
-*/
+// TODO FIXME replay attacks?
+
+// https://github.com/diafygi/webcrypto-examples#rsa-pss---generatekey
+
+export async function generateLocalKey() {
+  let keyPair: CryptoKeyPair = await window.crypto.subtle.generateKey(
+    {
+      name: "RSA-PSS",
+      modulusLength: 4096,
+      publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
+      hash: {name: "SHA-512"}
+    },
+    false,
+    ["sign", "verify"]
+  );
+  let exportedPublicKey = await window.crypto.subtle.exportKey("jwk", keyPair.publicKey)
+
+  console.log(keyPair)
+  console.log(exportedPublicKey)
+}
+generateLocalKey()
