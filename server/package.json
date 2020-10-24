@@ -9,9 +9,7 @@
   },
   "author": "",
   "license": "AGPL-3.0-or-later",
-  "dependencies": {
-    "wrtc": "^0.4.6"
-  },
+  "dependencies": {},
   "devDependencies": {
     "node-ts": "^5.1.0",
     "ts-node-dev": "^1.0.0"

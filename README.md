@@ -24,7 +24,66 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 # projektwahl-pwa
 [WORK-IN-PROGRESS] Diese Software kann eine Projektwahl verwalten, wie sie beispielsweise für eine Projektwoche benötigt wird.
 
-docker run -it -v $(pwd):/tmp/repo -w /tmp/repo node /bin/bash
+# THIS ALL DOESNT WORK WELL ON NIXOS; JUST DONT USE IT FOR NOW
+git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+export PATH=$PWD/depot_tools:$PATH
+export VPYTHON_BYPASS="manually managed python not supported by chrome operations"
+export GCLIENT_PY3=0
+
+# TODO FIXME use python2 or maybe set pyton2 env variable
+
+
+mkdir webrtc-checkout
+cd webrtc-checkout
+nano args.gn
+host_cpu="x64"
+target_os="linux"
+is_component_build=false
+is_debug=false
+is_clang=false
+proprietary_codecs=true
+use_custom_libcxx=false
+use_system_libjpeg=false
+use_rtti=true
+use_gold=false
+use_sysroot=false
+linux_use_bundled_binutils=false
+enable_dsyms=true
+rtc_include_tests=false
+rtc_build_examples=false
+rtc_build_tools=false
+rtc_build_opus=false
+rtc_build_ssl=false
+rtc_ssl_root="/usr/include"
+rtc_ssl_libs=["ssl","crypto"]
+rtc_builtin_ssl_root_certificates=true
+rtc_build_ffmpeg=false
+rtc_ffmpeg_root="/usr/include"
+rtc_ffmpeg_libs=["avcodec","swscale","swresample","avutil"]
+rtc_opus_root="/usr/include/opus"
+rtc_enable_protobuf=false
+treat_warnings_as_errors=false
+
+fetch --nohooks webrtc
+gclient sync
+
+
+
+
+
+nix shell nixpkgs#llvm nixpkgs#clang nixpkgs#ninja nixpkgs#python3
+git clone https://gn.googlesource.com/gn
+cd gn
+python build/gen.py
+ninja -C out
+out/gn_unittests
+
+# https://webrtc.github.io/webrtc-org/native-code/development/#building
+
+
+docker run -it -v $(pwd):/tmp/repo -w /tmp/repo ubuntu /bin/bash
+apt update
+apt install cmake npm
 npm install
 
 nix-shell --pure -p git cmake gcc nodejs-15_x python38 cacert curl
