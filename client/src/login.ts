@@ -64,7 +64,7 @@ const clearCustomValidity = (event: Event) => {
 }
 
 export const loginTemplate = () => html`
-<div class="container">
+<div class="container small-container">
     <h1 class="text-center">Anmelden</h1>
     <form @submit=${loginSubmitHandler}>
         <fieldset>

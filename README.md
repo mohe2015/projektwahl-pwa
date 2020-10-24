@@ -26,6 +26,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 # Design
 
+Normal login flow:
+login -> get a session in form of a certificate
+logout / block -> invalidate session / revoke certificate
+
+
+
 Initial setup: ask the server to exchange your username and password for a certificate that is signed by the server for a specific period of time
 
 Use that certificate to ask any peer for the list of projects / users / ...

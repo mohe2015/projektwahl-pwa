@@ -21,8 +21,29 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-@import 'bootstrap/dist/css/bootstrap.css';
 
-.small-container {
-    max-width: 30em;
+// TODO FIXME replay attacks?
+
+// https://github.com/diafygi/webcrypto-examples#rsa-pss---generatekey
+
+import { } from 'crypto';
+
+const { subtle } = require('crypto').webcrypto;
+
+export async function generateLocalKey() {
+  let keyPair: CryptoKeyPair = await crypto.subtle.generateKey(
+    {
+      name: "RSA-PSS",
+      modulusLength: 4096,
+      publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
+      hash: {name: "SHA-512"}
+    },
+    false,
+    ["sign", "verify"]
+  );
+  let exportedPublicKey = await crypto.subtle.exportKey("jwk", keyPair.publicKey)
+
+  console.log(keyPair)
+  console.log(exportedPublicKey)
 }
+generateLocalKey()
