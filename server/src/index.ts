@@ -40,10 +40,9 @@ export function sessionStream(stream: ServerHttp2Stream, headers: IncomingHttpHe
 
 export const startServer = () => {
     const server: Http2SecureServer = createSecureServer({
-        key: readFileSync("localhost-privkey.pem"),
-        cert: readFileSync("localhost-cert.pem"),
+        key: readFileSync("localhost-key.pem"),
+        cert: readFileSync("localhost.pem"),
     });
-
 
     server.on("session", (session) => {
         session.on("stream", sessionStream)
@@ -59,3 +58,5 @@ export const startServer = () => {
 
     return server
 }
+
+startServer()
