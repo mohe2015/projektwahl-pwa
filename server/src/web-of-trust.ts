@@ -26,9 +26,7 @@
 
 // https://github.com/diafygi/webcrypto-examples#rsa-pss---generatekey
 
-import { } from 'crypto';
-
-const { subtle } = require('crypto').webcrypto;
+const crypto: { subtle: SubtleCrypto } = require('crypto').webcrypto;
 
 export async function generateLocalKey() {
   let keyPair: CryptoKeyPair = await crypto.subtle.generateKey(

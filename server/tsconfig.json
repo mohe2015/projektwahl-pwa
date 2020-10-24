@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "module": "esnext",
+        "target": "esnext",
+        "lib": ["DOM", "ESNext", "WebWorker", "ESNext.String"],
+        "moduleResolution": "node",
+        "strict": true,
+        "typeRoots": [
+            "./node_modules/@dev.mohe",
+        ]
+    }
+}
