@@ -59,6 +59,8 @@ export const startServer = () => {
         console.log("Server started at https://localhost:8443");
     });
 
+    server.close()
+
     return server
 }
 
@@ -118,6 +120,17 @@ export const createDatabase = async () => {
     >("projektwahl", schema2)
 
     console.log(database)
+
+    let transaction = await database.transaction(["settings"], "readwrite") 
+
+    await transaction.objectStore("settings").add(undefined, {
+        key: "test",
+        value: "elephant"
+    })
+
+    await transaction.done
+
+    connection.close()
 }
 
 startServer()
