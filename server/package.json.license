@@ -1,4 +1,3 @@
-<!--
 projektwahl - Diese Software kann eine Projektwahl verwalten, wie sie beispielsweise für eine Projektwoche benötigt wird.
 
 Copyright (C) 2020 Moritz Hedtke <Moritz.Hedtke@t-online.de>
@@ -20,14 +19,3 @@ with this program. If not, see <https://www.gnu.org/licenses/>.
 SPDX-FileCopyrightText: 2020 Moritz Hedtke <Moritz.Hedtke@t-online.de>
 
 SPDX-License-Identifier: AGPL-3.0-or-later
--->
-
-# Blockers
-
-ts-node: https://github.com/TypeStrong/ts-node/issues/1130
-
-```bash
-mkcert localhost
-```
-
-sudo nixos-container create idb-mongodb --flake node_modules/@dev.mohe/indexeddb
