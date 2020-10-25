@@ -28,6 +28,7 @@ import { parse } from "url";
 import './web-of-trust.js';
 import { create } from '@dev.mohe/indexeddb';
 import { DatabaseMigration, DatabaseSchemaWithoutMigration, migrate } from '@dev.mohe/indexeddb/build/interface';
+import { createDatabase } from '@dev.mohe/projektwahl-lib'
 
 // https://nodejs.org/api/http2.html
 

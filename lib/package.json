@@ -2,7 +2,9 @@
   "name": "@dev.mohe/projektwahl-lib",
   "version": "0.0.1",
   "description": "Diese Software kann eine Projektwahl verwalten, wie sie beispielsweise für eine Projektwoche benötigt wird.",
-  "main": "build/index.js",
+  "module": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
