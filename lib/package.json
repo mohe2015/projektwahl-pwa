@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Diese Software kann eine Projektwahl verwalten, wie sie beispielsweise für eine Projektwoche benötigt wird.",
   "module": "./build/index.js",
+  "main": "./build/index.js",
   "types": "./build/index.d.ts",
   "type": "module",
   "scripts": {

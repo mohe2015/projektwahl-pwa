@@ -60,8 +60,6 @@ export const startServer = () => {
         console.log("Server started at https://localhost:8443");
     });
 
-    server.close()
-
     return server
 }
 

@@ -85,7 +85,7 @@ export const createDatabase = async () => {
     let transaction = await database.transaction(["settings"], "readwrite") 
 
     await transaction.objectStore("settings").add(undefined, {
-        key: "test",
+        key: "test2",
         value: "elephant"
     })
 
