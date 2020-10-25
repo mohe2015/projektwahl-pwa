@@ -26,7 +26,8 @@ import { Http2SecureServer, ServerHttp2Stream, IncomingHttpHeaders, createSecure
 import { readFileSync } from 'fs';
 import { parse } from "url";
 import './web-of-trust.js';
-import {  } from '@dev.mohe/indexeddb';
+import { create } from '@dev.mohe/indexeddb';
+import { DatabaseMigration, DatabaseSchemaWithoutMigration, migrate } from '@dev.mohe/indexeddb/build/interface';
 
 // https://nodejs.org/api/http2.html
 
@@ -61,4 +62,63 @@ export const startServer = () => {
     return server
 }
 
+export const createDatabase = async () => {
+    let schema1: DatabaseSchemaWithoutMigration<1, {}> = {
+        version: 1,
+        objectStores: {},
+    };
+
+    let addedColumns1 = {
+        settings: {
+            key: {
+                primaryKeyOptions: {
+                    autoIncrement: false,
+                    keyPath: 'key',
+                },
+            },
+            value: {},
+        },
+    };
+
+    let migration1: DatabaseMigration<
+        1,
+        2,
+        {},
+        {},
+        typeof addedColumns1,
+        typeof schema1
+    > = {
+        fromVersion: schema1.version,
+        toVersion: 2,
+        baseSchema: schema1,
+        addedColumns: addedColumns1,
+        removedColumns: {},
+    };
+
+    let schema2 = migrate<
+        1,
+        2,
+        {},
+        {},
+        typeof addedColumns1,
+        typeof addedColumns1,
+        typeof schema1
+    >(migration1);
+
+    let connection = await create("mongodb://idb-mongodb")
+    let database = await connection.database<
+    1,
+    2,
+    {},
+    {},
+    typeof addedColumns1,
+    {},
+    typeof schema1,
+    typeof schema2    
+    >("projektwahl", schema2)
+
+    
+}
+
 startServer()
+createDatabase()

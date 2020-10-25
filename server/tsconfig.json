@@ -5,6 +5,7 @@
         "lib": ["DOM"],
         "moduleResolution": "Node",
         "outDir": "dist",
-        "strict": true
+        "strict": true,
+        "keyofStringsOnly": true, // required
     }
 }
