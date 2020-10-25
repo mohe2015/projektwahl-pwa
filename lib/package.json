@@ -1,0 +1,23 @@
+{
+  "name": "@dev.mohe/projektwahl-lib",
+  "version": "0.0.1",
+  "description": "Diese Software kann eine Projektwahl verwalten, wie sie beispielsweise für eine Projektwoche benötigt wird.",
+  "main": "build/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohe2015/projektwahl-pwa.git"
+  },
+  "keywords": [
+    "projektwahl",
+    "typescript"
+  ],
+  "author": "Moritz Hedtke <Moritz.Hedtke@t-online.de>",
+  "license": "AGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/mohe2015/projektwahl-pwa/issues"
+  },
+  "homepage": "https://github.com/mohe2015/projektwahl-pwa#readme"
+}
