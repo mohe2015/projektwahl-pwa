@@ -117,7 +117,7 @@ export const createDatabase = async () => {
     typeof schema2    
     >("projektwahl", schema2)
 
-    
+    console.log(database)
 }
 
 startServer()
