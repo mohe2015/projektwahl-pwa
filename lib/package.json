@@ -4,6 +4,8 @@
   "description": "Diese Software kann eine Projektwahl verwalten, wie sie beispielsweise für eine Projektwoche benötigt wird.",
   "main": "build/index.js",
   "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,5 +21,11 @@
   "bugs": {
     "url": "https://github.com/mohe2015/projektwahl-pwa/issues"
   },
-  "homepage": "https://github.com/mohe2015/projektwahl-pwa#readme"
+  "homepage": "https://github.com/mohe2015/projektwahl-pwa#readme",
+  "dependencies": {
+    "@dev.mohe/indexeddb": "file:../../indexeddb"
+  },
+  "devDependencies": {
+    "typescript": "^4.0.3"
+  }
 }

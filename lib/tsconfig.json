@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "module": "ESNext",
+        "target": "ESNext",
+        "lib": ["DOM"],
+        "moduleResolution": "Node",
+        "outDir": "dist",
+        "strict": true,
+        "keyofStringsOnly": true, // required
+    }
+}
