@@ -25,21 +25,29 @@
 import { Http2SecureServer, ServerHttp2Stream, IncomingHttpHeaders, createSecureServer } from 'http2';
 import { readFileSync } from 'fs';
 import { parse } from "url";
-import './web-of-trust.js';
-import { create } from '@dev.mohe/indexeddb';
-import { DatabaseMigration, DatabaseSchemaWithoutMigration, migrate } from '@dev.mohe/indexeddb/build/interface';
-import { createDatabase } from '@dev.mohe/projektwahl-lib'
+//import './web-of-trust.js';
+//import { create } from '@dev.mohe/indexeddb';
+//import { DatabaseMigration, DatabaseSchemaWithoutMigration, migrate } from '@dev.mohe/indexeddb/build/interface';
+//import { createDatabase } from '@dev.mohe/projektwahl-lib'
 
 // https://nodejs.org/api/http2.html
 
 export function sessionStream(stream: ServerHttp2Stream, headers: IncomingHttpHeaders, flags: number) {
     console.log(parse(headers[":path"]!))
 
-    stream.respond({
-        "content-type": "text/html; charset=utf-8",
-        ":status": 200
-    })
-    stream.end("<h1>Hello world</h1>")
+    if (headers[":path"] === "/api/v1/login") {
+        stream.respond({
+            "content-type": "text/html; charset=utf-8",
+            ":status": 200
+        })
+        stream.end("<h1>Hello world</h1>")
+    } else {
+        stream.respond({
+            "content-type": "text/html; charset=utf-8",
+            ":status": 404
+        })
+        stream.end("<h1>Not Found</h1>")
+    }
 }
 
 export const startServer = () => {
@@ -48,8 +56,9 @@ export const startServer = () => {
         cert: readFileSync("localhost.pem"),
     });
 
-    server.on("session", (session) => {
-        session.on("stream", sessionStream)
+    server.on("session", (session) => { // session is an active communication session between client and server
+        console.log(session)
+        session.on("stream", sessionStream) // 
     });
 
     server.on("unknownProtocol", () => {
@@ -64,4 +73,4 @@ export const startServer = () => {
 }
 
 startServer()
-createDatabase()
+//createDatabase()

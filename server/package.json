@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "watch": "tsc --watch",
-    "start": "node ./build/index.js",
+    "start": "nodemon --watch ../lib --watch ../../indexeddb ./build/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -14,6 +14,7 @@
   "devDependencies": {
     "@dev.mohe/projektwahl-lib": "file:../lib",
     "@types/node": "^14.14.2",
+    "nodemon": "^2.0.6",
     "typescript": "^4.0.3"
   },
   "dependencies": {

@@ -43,6 +43,12 @@ Revoking should be possible?
 
 Best way would be to do all communication using WebRTC because then you would only need one technology. But probably WebSockets or http2 requests need to be used for client server communication
 
+
+# Maybe use
+https://identity.foundation/working-groups/identifiers-discovery.html
+https://w3c-ccg.github.io/did-primer/
+https://raw.githubusercontent.com/WebOfTrustInfo/rwot1-sf/master/final-documents/dpki.pdf
+
 # Permissions
 
 server signs you which permissions you have (project leader, user)
