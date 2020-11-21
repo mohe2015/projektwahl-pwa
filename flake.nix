@@ -32,6 +32,7 @@
             buildInputs = [
               pkgs.reuse
               pkgs.nodejs-15_x
+              pkgs.nodePackages.npm-check-updates
             ];
 
             shellHook = ''
