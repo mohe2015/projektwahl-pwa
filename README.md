@@ -27,7 +27,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 # Design
 
 Normal login flow:
-login -> get a session in form of a certificate
+login -> get a session in form of a signature for a certificate
 logout / block -> invalidate session / revoke certificate
 
 

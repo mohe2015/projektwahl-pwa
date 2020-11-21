@@ -32,21 +32,42 @@ import { parse } from "url";
 
 // https://nodejs.org/api/http2.html
 
+// curl -s -D /dev/stderr --insecure -X POST "https://localhost:8443/" | jq
+
 export function sessionStream(stream: ServerHttp2Stream, headers: IncomingHttpHeaders, flags: number) {
     console.log(parse(headers[":path"]!))
 
-    if (headers[":path"] === "/api/v1/login") {
+    if (headers[":method"] !== "POST") {
         stream.respond({
-            "content-type": "text/html; charset=utf-8",
+            "content-type": "application/json; charset=utf-8",
+            ":status": 405,
+        })
+        stream.end(JSON.stringify({
+            error: "method-not-allowed"
+        }))
+        return;
+    }
+
+    if (headers[":path"] === "/api/v1/login") {
+        stream
+
+
+
+        stream.respond({
+            "content-type": "application/json; charset=utf-8",
             ":status": 200
         })
-        stream.end("<h1>Hello world</h1>")
+        stream.end(JSON.stringify({
+            response: "yay"
+        }))
     } else {
         stream.respond({
-            "content-type": "text/html; charset=utf-8",
+            "content-type": "application/json; charset=utf-8",
             ":status": 404
         })
-        stream.end("<h1>Not Found</h1>")
+        stream.end(JSON.stringify({
+            error: "not-found"
+        }))
     }
 }
 
