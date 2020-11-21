@@ -29,6 +29,6 @@
     "@dev.mohe/indexeddb": "file:../../indexeddb"
   },
   "devDependencies": {
-    "typescript": "^4.0.3"
+    "typescript": "^4.1.2"
   }
 }
