@@ -22,6 +22,10 @@ SPDX-FileCopyrightText: 2020 Moritz Hedtke <Moritz.Hedtke@t-online.de>
 SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+https://modern-web.dev/
+
+https://open-wc.org/
+
 # New Project
 
 > ✨ Bootstrapped with Create Snowpack App (CSA).
