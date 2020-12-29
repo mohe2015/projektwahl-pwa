@@ -22,7 +22,6 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 // https://github.com/Polymer/lit-html/pull/1347
-import { Collapse } from 'bootstrap';
 import { html, render } from 'lit-html';
 import { loginTemplate } from './login';
 import { navTemplate } from './nav';
@@ -55,9 +54,6 @@ const navigate = (url: string, state: any) => {
   history.pushState(state, document.title, url);
 
   update(url, state);
-
-  let navbar = new Collapse(document.querySelector<HTMLDivElement>('#navbarSupportedContent')!)
-  navbar.hide()
 };
 
 const contentElement = document.querySelector<HTMLDivElement>('#content')!

@@ -21,53 +21,75 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import {html, render} from 'lit-html';
+import {html, Part, TemplateResult } from 'lit-html';
+import {directive, Directive, PartInfo, PartType} from 'lit-html/directive.js';
 
-export const navTemplate = (loggedIn: boolean) => html`
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-<div class="container-fluid">
-  <a class="navbar-brand" href="/">Projektwahl</a>
-  <button
-    class="navbar-toggler"
-    type="button"
-    data-toggle="collapse"
-    data-target="#navbarSupportedContent"
-    aria-controls="navbarSupportedContent"
-    aria-expanded="false"
-    aria-label="Toggle navigation"
-  >
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
-      <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="/"
-          >Startseite</a
+export const navTemplate = directive(
+  class extends Directive {
+
+    navbarExpanded = false;
+
+    constructor(partInfo: PartInfo) {
+      super(partInfo);
+      console.log(partInfo)
+    }
+
+    toggleNavbar() {
+      console.log("toggleNavbar")
+      this.navbarExpanded = !this.navbarExpanded
+    }
+
+    render(loggedIn: boolean): TemplateResult {
+      console.log("render")
+      return html`
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">Projektwahl</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+          @click=${this.toggleNavbar}
         >
-      </li>
-      ${loggedIn ? html`<li class="nav-item">
-        <a class="nav-link" href="#">Projekte</a>
-      </li>` : null}
-      ${loggedIn ? html`<li class="nav-item">
-        <a class="nav-link" href="#">Lehrer</a>
-      </li>` : null}
-      ${loggedIn ? html`<li class="nav-item">
-        <a class="nav-link" href="#">Nutzer</a>
-      </li>` : null}
-      ${loggedIn ? html`<li class="nav-item">
-        <a class="nav-link" href="#">Wahl</a>
-      </li>` : null}
-      ${loggedIn ? html`<li class="nav-item">
-        <a class="nav-link" href="#">Wahl beenden / starten</a>
-      </li>` : null}
-      ${!loggedIn ? html`<li class="nav-item">
-        <a class="nav-link" href="/login">anmelden</a>
-      </li>` : null}
-      ${loggedIn ? html`<li class="nav-item">
-        <a class="nav-link" href="#">Passwort ändern</a>
-      </li>` : null}
-    </ul>
-  </div>
-</div>
-</nav>
-`
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse ${this.navbarExpanded ? html`show` : html``}" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/"
+                >Startseite</a
+              >
+            </li>
+            ${loggedIn ? html`<li class="nav-item">
+              <a class="nav-link" href="#">Projekte</a>
+            </li>` : null}
+            ${loggedIn ? html`<li class="nav-item">
+              <a class="nav-link" href="#">Lehrer</a>
+            </li>` : null}
+            ${loggedIn ? html`<li class="nav-item">
+              <a class="nav-link" href="#">Nutzer</a>
+            </li>` : null}
+            ${loggedIn ? html`<li class="nav-item">
+              <a class="nav-link" href="#">Wahl</a>
+            </li>` : null}
+            ${loggedIn ? html`<li class="nav-item">
+              <a class="nav-link" href="#">Wahl beenden / starten</a>
+            </li>` : null}
+            ${!loggedIn ? html`<li class="nav-item">
+              <a class="nav-link" href="/login">anmelden</a>
+            </li>` : null}
+            ${loggedIn ? html`<li class="nav-item">
+              <a class="nav-link" href="#">Passwort ändern</a>
+            </li>` : null}
+          </ul>
+        </div>
+      </div>
+      </nav>
+      `
+    }
+  }
+);
