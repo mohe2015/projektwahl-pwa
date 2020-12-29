@@ -21,13 +21,14 @@
  *
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import {html, Part, TemplateResult } from 'lit-html';
-import {directive, Directive, PartInfo, PartType} from 'lit-html/directive.js';
+import {html, TemplateResult } from 'lit-html';
+import {directive, Directive, PartInfo} from 'lit-html/directive.js';
+import {update} from './router'
 
 export const navTemplate = directive(
   class extends Directive {
 
-    navbarExpanded = false;
+    navbarExpanded = true;
 
     constructor(partInfo: PartInfo) {
       super(partInfo);
@@ -37,6 +38,7 @@ export const navTemplate = directive(
     toggleNavbar() {
       console.log("toggleNavbar")
       this.navbarExpanded = !this.navbarExpanded
+      update(document.location.pathname, null);
     }
 
     render(loggedIn: boolean): TemplateResult {
@@ -57,7 +59,7 @@ export const navTemplate = directive(
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse ${this.navbarExpanded ? html`show` : html``}" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse ${this.navbarExpanded ? "show" : "hide"}" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="/"

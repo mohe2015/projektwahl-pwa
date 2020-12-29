@@ -58,7 +58,7 @@ const navigate = (url: string, state: any) => {
 
 const contentElement = document.querySelector<HTMLDivElement>('#content')!
 
-const update = (url: string, state: any) => {
+export const update = (url: string, state: any) => {
   let result = html`
     ${navTemplate(false)}
     ${template(url, state, false)}
