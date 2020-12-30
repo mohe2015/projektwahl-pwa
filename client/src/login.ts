@@ -22,25 +22,26 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import {html, render} from 'lit-html';
+import { update } from './router';
 
 const loginSubmitHandler = (event: Event) => {
     event.preventDefault()
 
     let form = event.target as HTMLFormElement
-    let fieldset = form.querySelector<HTMLFieldSetElement>("fieldset")!
     let usernameInput = form.querySelector<HTMLInputElement>("#username")!
     let passwordInput = form.querySelector<HTMLInputElement>("#password")!
    
     const formData = new FormData(form);
 
-    fieldset.disabled = true;
+    formDisabled = true;
+    update();
 
     (async () => {
         try {
-            console.log("generating certificate...")
+            let array = new Uint8Array(64)
+            let fakeCertificate = [...crypto.getRandomValues(array)].map(a => a.toString(16).padStart(2, "0")).join("")
 
-
-
+            formData.append("certificate", `fakecert${fakeCertificate}`)
 
             const response = await fetch("https://localhost:8443/api/0.1/login", {
                 method: 'POST',
@@ -49,13 +50,14 @@ const loginSubmitHandler = (event: Event) => {
 
             let json = await response.json()
 
-            console.log(json)
+            
     
             passwordInput.setCustomValidity("fdslifh")
         } catch (error) {
             alert(error)
         } finally {    
-            fieldset.disabled = false;
+            formDisabled = false;
+            update();
         }
     })()
 }
@@ -65,11 +67,13 @@ const clearCustomValidity = (event: Event) => {
     input.setCustomValidity("")
 }
 
+let formDisabled = false
+
 export const loginTemplate = () => html`
 <div class="container small-container">
     <h1 class="text-center">Anmelden</h1>
     <form @submit=${loginSubmitHandler}>
-        <fieldset>
+        <fieldset ?disabled=${formDisabled}>
             <div class="mb-3">
                 <label for="username" class="form-label">Benutzername:</label>
                 <input @input=${clearCustomValidity} type="text" required class="form-control" id="username" name="username" autocomplete="username">

@@ -34,7 +34,7 @@ import { parse } from "url";
 
 // curl -s -D /dev/stderr --insecure -X POST "https://localhost:8443/" | jq
 
-export function sessionStream(stream: ServerHttp2Stream, headers: IncomingHttpHeaders, flags: number) {
+export async function sessionStream(stream: ServerHttp2Stream, headers: IncomingHttpHeaders, flags: number) {
     console.log(headers)
 
     if (headers[":method"] !== "POST") {
@@ -50,6 +50,11 @@ export function sessionStream(stream: ServerHttp2Stream, headers: IncomingHttpHe
     }
 
     if (headers[":path"] === "/api/0.1/login") {
+
+        for await (const chunk of stream) {
+            console.log(chunk);
+        }
+
         stream.respond({
             "content-type": "application/json; charset=utf-8",
             "Access-Control-Allow-Origin": "https://localhost:8080",
