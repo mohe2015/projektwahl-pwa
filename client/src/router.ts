@@ -52,16 +52,20 @@ document.addEventListener(
 
 const navigate = (url: string, state: any) => {
   history.pushState(state, document.title, url);
-
-  update(url, state);
+  appState.navbarExpanded = false
+  update();
 };
 
 const contentElement = document.querySelector<HTMLDivElement>('#content')!
 
-export const update = (url: string, state: any) => {
+export let appState = {
+  navbarExpanded: false
+}
+
+export const update = () => {
   let result = html`
     ${navTemplate(false)}
-    ${template(url, state, false)}
+    ${template(document.location.pathname, null, false)}
     `
   render(result, contentElement);
 };
@@ -75,10 +79,10 @@ const template = (url: string, state: any, loggedIn: boolean) => {
   return notFoundTemplate(loggedIn);
 };
 
-update(document.location.pathname, null);
+update();
 
 window.addEventListener('popstate', (event) => {
-  update(document.location.pathname, null);
+  update();
 })
 
 const currentRouteTemplate = (pathname: string) => {};
