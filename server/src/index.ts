@@ -63,7 +63,7 @@ export async function sessionStream(stream: ServerHttp2Stream, headers: Incoming
             });
         });
         busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
-            console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+            console.log('Field [' + fieldname + ']: value: ' + val);
         });
         busboy.on('finish', function() {
             console.log('Done parsing form!');
