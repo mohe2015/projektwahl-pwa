@@ -6,6 +6,6 @@
         "moduleResolution": "Node",
         "outDir": "build",
         "strict": true,
-        "keyofStringsOnly": true, // required
+        "allowSyntheticDefaultImports": true
     }
 }

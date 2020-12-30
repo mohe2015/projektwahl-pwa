@@ -25,6 +25,7 @@
 import { Http2SecureServer, ServerHttp2Stream, IncomingHttpHeaders, createSecureServer } from 'http2';
 import { readFileSync } from 'fs';
 import { parse } from "url";
+import Busboy from 'busboy';
 //import './web-of-trust.js';
 //import { create } from '@dev.mohe/indexeddb';
 //import { DatabaseMigration, DatabaseSchemaWithoutMigration, migrate } from '@dev.mohe/indexeddb/build/interface';
@@ -51,9 +52,24 @@ export async function sessionStream(stream: ServerHttp2Stream, headers: Incoming
 
     if (headers[":path"] === "/api/0.1/login") {
 
-        for await (const chunk of stream) {
-            console.log(chunk);
-        }
+        let busboy = new Busboy({ headers: headers })
+        busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+            console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
+            file.on('data', function(data) {
+                console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
+            });
+            file.on('end', function() {
+                console.log('File [' + fieldname + '] Finished');
+            });
+        });
+        busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
+            console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+        });
+        busboy.on('finish', function() {
+            console.log('Done parsing form!');
+            
+        });
+        stream.pipe(busboy);
 
         stream.respond({
             "content-type": "application/json; charset=utf-8",
