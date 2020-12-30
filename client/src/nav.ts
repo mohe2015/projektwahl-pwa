@@ -28,14 +28,15 @@ import {update} from './router'
 export const navTemplate = directive(
   class extends Directive {
 
-    navbarExpanded = true;
+    navbarExpanded = false;
 
     constructor(partInfo: PartInfo) {
       super(partInfo);
       console.log(partInfo)
     }
 
-    toggleNavbar() {
+    toggleNavbar = () => {
+      console.log(this)
       console.log("toggleNavbar")
       this.navbarExpanded = !this.navbarExpanded
       update(document.location.pathname, null);
