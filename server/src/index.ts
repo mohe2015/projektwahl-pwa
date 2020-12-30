@@ -36,8 +36,6 @@ import Busboy from 'busboy';
 // curl -s -D /dev/stderr --insecure -X POST "https://localhost:8443/" | jq
 
 export async function sessionStream(stream: ServerHttp2Stream, headers: IncomingHttpHeaders, flags: number) {
-    console.log(headers)
-
     if (headers[":method"] !== "POST") {
         stream.respond({
             "content-type": "application/json; charset=utf-8",
@@ -61,6 +59,10 @@ export async function sessionStream(stream: ServerHttp2Stream, headers: Incoming
             parts: 3
         }})
 
+        let username: string | undefined = undefined;
+        let password: string | undefined = undefined;
+        let certificate: string | undefined = undefined;
+
         busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
             console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
             file.on('data', function(data) {
@@ -77,24 +79,39 @@ export async function sessionStream(stream: ServerHttp2Stream, headers: Incoming
                 stream.destroy()
                 busboy.end()
                 busboy.removeAllListeners()
+                return
             }
-
             console.log('Field [' + fieldname + ']: value: ' + val);
+            if (fieldname === "username") username = val;
+            else if (fieldname === "password") password = val;
+            else if (fieldname === "certificate") certificate = val;
+            else {
+                console.error("forbidden field - closing connection...")
+                stream.destroy()
+                busboy.end()
+                busboy.removeAllListeners()
+                return
+            }
         });
         busboy.on('finish', function() {
             console.log('Done parsing form!');
+            if (username === undefined || password === undefined || certificate === undefined) {
+                console.error("not all fields provided - closing connection...")
+                stream.destroy()
+            }
+
             
+
+            stream.respond({
+                "content-type": "application/json; charset=utf-8",
+                "Access-Control-Allow-Origin": "https://localhost:8080",
+                ":status": 200
+            })
+            stream.end(JSON.stringify({
+                response: "yay"
+            }))
         });
         stream.pipe(busboy);
-
-        stream.respond({
-            "content-type": "application/json; charset=utf-8",
-            "Access-Control-Allow-Origin": "https://localhost:8080",
-            ":status": 200
-        })
-        stream.end(JSON.stringify({
-            response: "yay"
-        }))
     } else {
         stream.respond({
             "content-type": "application/json; charset=utf-8",
