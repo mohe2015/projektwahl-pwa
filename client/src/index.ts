@@ -23,7 +23,6 @@
  */
 import './error-handler';
 import './router'
-import 'bootstrap';
 import './web-of-trust';
 
 /*

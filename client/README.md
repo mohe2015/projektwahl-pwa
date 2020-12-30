@@ -22,6 +22,11 @@ SPDX-FileCopyrightText: 2020 Moritz Hedtke <Moritz.Hedtke@t-online.de>
 SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+https://github.com/Polymer/lit-html/blob/lit-next/packages/lit-html/README.md
+
+
+
+
 https://modern-web.dev/
 
 https://open-wc.org/

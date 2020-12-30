@@ -23,73 +23,57 @@
  */
 
 import { create } from "@dev.mohe/indexeddb/build/api";
-import { DatabaseSchemaWithoutMigration, DatabaseMigration, migrate } from "@dev.mohe/indexeddb/build/interface";
+import { DatabaseColumnType, DatabaseConnection, dbtypes } from "@dev.mohe/indexeddb/build/interface";
 
 export const createDatabase = async () => {
-    let schema1: DatabaseSchemaWithoutMigration<1, {}> = {
-        version: 1,
-        objectStores: {},
-    };
 
-    let addedColumns1 = {
-        settings: {
-            key: {
-                primaryKeyOptions: {
-                    autoIncrement: false,
-                    keyPath: 'key',
-                },
-            },
-            value: {},
+    const users = {
+        name: {
+            type: dbtypes.string,
+            columnType: DatabaseColumnType.PRIMARY_KEY,
         },
-    };
+        age: {
+            type: dbtypes.number,
+            columnType: DatabaseColumnType.DEFAULT,
+        },
+        }
 
-    let migration1: DatabaseMigration<
-        1,
-        2,
-        {},
-        {},
-        typeof addedColumns1,
-        typeof schema1
-    > = {
-        fromVersion: schema1.version,
-        toVersion: 2,
-        baseSchema: schema1,
-        addedColumns: addedColumns1,
-        removedColumns: {},
-    };
+    const posts = {
+        title: {
+            type: dbtypes.string,
+            columnType: DatabaseColumnType.PRIMARY_KEY,
+        },
+        content: {
+            type: dbtypes.string,
+            columnType: DatabaseColumnType.DEFAULT,
+        },
+    }
 
-    let schema2 = migrate<
-        1,
-        2,
-        {},
-        {},
-        typeof addedColumns1,
-        typeof addedColumns1,
-        typeof schema1
-    >(migration1);
+    const objectStores = {
+        users,
+        posts
+    }
 
-    let connection = await create("mongodb://idb-mongodb")
-    let database = await connection.database<
-    1,
-    2,
-    {},
-    {},
-    typeof addedColumns1,
-    {},
-    typeof schema1,
-    typeof schema2    
-    >("projektwahl", schema2)
+    const connection: DatabaseConnection = await create();
 
-    console.log(database)
+    const database = await connection.database("test12", objectStores, 1, async (transaction, oldVersion) => {
+        if (oldVersion === 0) {
+            await transaction.createObjectStore("posts", "title", objectStores.posts.title)
 
-    let transaction = await database.transaction(["settings"], "readwrite") 
+            await transaction.createColumn("posts", "content", objectStores.posts.content)
+        }
+    });
 
-    await transaction.objectStore("settings").add(undefined, {
-        key: "test4",
-        value: "elephant"
-    })
+    await database.transaction(["posts"], "readwrite", async (transaction) => {
 
-    await transaction.done
+        const objectStore = transaction.objectStore("posts", "title")
 
-    connection.close()
+        await objectStore.put({title: "Moritz Hedtke", content: "Hallo, wie geht es dir? Gut."});
+
+        const value = await objectStore.get(["content"], "Moritz Hedtke")
+
+        console.log(value)
+    });
+
+    await database.close()
 }
