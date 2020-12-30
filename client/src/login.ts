@@ -42,12 +42,14 @@ const loginSubmitHandler = (event: Event) => {
 
 
 
-            const response = await fetch("/api/0.1/login", {
+            const response = await fetch("https://localhost:8443/api/0.1/login", {
                 method: 'POST',
                 body: formData
             })
 
             let json = await response.json()
+
+            console.log(json)
     
             passwordInput.setCustomValidity("fdslifh")
         } catch (error) {

@@ -23,7 +23,7 @@
  */
 import './error-handler';
 import './router'
-import './web-of-trust';
+//import './web-of-trust';
 
 /*
 window.addEventListener('load', async () => {

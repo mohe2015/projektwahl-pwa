@@ -35,11 +35,12 @@ import { parse } from "url";
 // curl -s -D /dev/stderr --insecure -X POST "https://localhost:8443/" | jq
 
 export function sessionStream(stream: ServerHttp2Stream, headers: IncomingHttpHeaders, flags: number) {
-    console.log(parse(headers[":path"]!))
+    console.log(headers)
 
     if (headers[":method"] !== "POST") {
         stream.respond({
             "content-type": "application/json; charset=utf-8",
+            "Access-Control-Allow-Origin": "https://localhost:8080",
             ":status": 405,
         })
         stream.end(JSON.stringify({
@@ -48,13 +49,10 @@ export function sessionStream(stream: ServerHttp2Stream, headers: IncomingHttpHe
         return;
     }
 
-    if (headers[":path"] === "/api/v1/login") {
-        stream
-
-
-
+    if (headers[":path"] === "/api/0.1/login") {
         stream.respond({
             "content-type": "application/json; charset=utf-8",
+            "Access-Control-Allow-Origin": "https://localhost:8080",
             ":status": 200
         })
         stream.end(JSON.stringify({
@@ -63,6 +61,7 @@ export function sessionStream(stream: ServerHttp2Stream, headers: IncomingHttpHe
     } else {
         stream.respond({
             "content-type": "application/json; charset=utf-8",
+            "Access-Control-Allow-Origin": "https://localhost:8080",
             ":status": 404
         })
         stream.end(JSON.stringify({
@@ -78,9 +77,16 @@ export const startServer = () => {
     });
 
     server.on("session", (session) => { // session is an active communication session between client and server
-        console.log(session)
         session.on("stream", sessionStream) // 
     });
+
+    server.on("timeout", () => {
+        console.error("timeout")
+    })
+
+    server.on("sessionError", (error) => {
+        console.error(error)
+    })
 
     server.on("unknownProtocol", () => {
         console.error("we should support http1.x using options.allowHTTP1")

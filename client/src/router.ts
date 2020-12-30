@@ -39,7 +39,6 @@ document.addEventListener(
       if (a) {
         if (a.origin === window.location.origin) {
           event.preventDefault();
-          //this.navbar.hide();
           navigate(a.href, null);
         }
       }
@@ -84,5 +83,3 @@ update();
 window.addEventListener('popstate', (event) => {
   update();
 })
-
-const currentRouteTemplate = (pathname: string) => {};
