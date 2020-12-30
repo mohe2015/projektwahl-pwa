@@ -52,7 +52,15 @@ export async function sessionStream(stream: ServerHttp2Stream, headers: Incoming
 
     if (headers[":path"] === "/api/0.1/login") {
 
-        let busboy = new Busboy({ headers: headers })
+        let busboy = new Busboy({ headers: headers, limits: {
+            fieldNameSize: 16,
+            fieldSize: 256,
+            fields: 3,
+            fileSize: 0,
+            files: 0,
+            parts: 3
+        }})
+
         busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
             console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
             file.on('data', function(data) {
@@ -61,8 +69,13 @@ export async function sessionStream(stream: ServerHttp2Stream, headers: Incoming
             file.on('end', function() {
                 console.log('File [' + fieldname + '] Finished');
             });
+            
         });
         busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
+            if (fieldnameTruncated || valTruncated) {
+                // cancel stream
+            }
+
             console.log('Field [' + fieldname + ']: value: ' + val);
         });
         busboy.on('finish', function() {
