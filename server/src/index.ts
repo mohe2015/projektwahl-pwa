@@ -73,7 +73,10 @@ export async function sessionStream(stream: ServerHttp2Stream, headers: Incoming
         });
         busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
             if (fieldnameTruncated || valTruncated) {
-                // cancel stream
+                console.error("too big form data - closing connection...")
+                stream.destroy()
+                busboy.end()
+                busboy.removeAllListeners()
             }
 
             console.log('Field [' + fieldname + ']: value: ' + val);
