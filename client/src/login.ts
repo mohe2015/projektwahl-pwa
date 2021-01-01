@@ -38,6 +38,27 @@ const loginSubmitHandler = (event: Event) => {
 
     (async () => {
         try {
+            let salt = window.crypto.getRandomValues(new Uint8Array(64))
+
+            let enc = new TextEncoder();
+            let keyMaterial = await window.crypto.subtle.importKey(
+                "raw",
+                enc.encode(passwordInput.value),
+                {name: "PBKDF2"},
+                false,
+                ["deriveBits"]
+            );
+            let derivedBits = await window.crypto.subtle.deriveBits(
+                {
+                  "name": "PBKDF2",
+                  salt: salt,
+                  "iterations": 1_000_000,
+                  "hash": "SHA-512"
+                },
+                keyMaterial,
+                512
+              );
+            console.log("password", [...new Uint8Array(derivedBits)].map(a => a.toString(16).padStart(2, "0")).join(""))
             let array = new Uint8Array(64)
             let fakeCertificate = [...crypto.getRandomValues(array)].map(a => a.toString(16).padStart(2, "0")).join("")
 
