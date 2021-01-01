@@ -48,6 +48,7 @@ Best way would be to do all communication using WebRTC because then you would on
 https://identity.foundation/working-groups/identifiers-discovery.html
 https://w3c-ccg.github.io/did-primer/
 https://raw.githubusercontent.com/WebOfTrustInfo/rwot1-sf/master/final-documents/dpki.pdf
+https://www.w3.org/TR/did-core/
 
 # Permissions
 
