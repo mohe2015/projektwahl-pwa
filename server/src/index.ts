@@ -104,6 +104,7 @@ export async function sessionStream(stream: ServerHttp2Stream, headers: Incoming
 
             // https://datatracker.ietf.org/doc/draft-irtf-cfrg-argon2/?include_text=1
             // 0.5 seconds
+            // take care because this can DOS the server (also memory wise)
             const theHash = await argon2.hash(password, {
                 type: argon2.argon2id,
                 hashLength: 64,
@@ -115,14 +116,16 @@ export async function sessionStream(stream: ServerHttp2Stream, headers: Incoming
             })
 
 
-            stream.respond({
-                "content-type": "application/json; charset=utf-8",
-                "Access-Control-Allow-Origin": "https://localhost:8080",
-                ":status": 200
-            })
-            stream.end(JSON.stringify({
-                response: theHash
-            }))
+            try {
+                stream.respond({
+                    "content-type": "application/json; charset=utf-8",
+                    "Access-Control-Allow-Origin": "https://localhost:8080",
+                    ":status": 200
+                })
+                stream.end(JSON.stringify({
+                    response: theHash
+                }))
+            } catch (error) { console.trace(error) }
         });
         stream.pipe(busboy);
     } else {
