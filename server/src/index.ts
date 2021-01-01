@@ -26,6 +26,7 @@ import { Http2SecureServer, ServerHttp2Stream, IncomingHttpHeaders, createSecure
 import { readFileSync } from 'fs';
 import { parse } from "url";
 import Busboy from 'busboy';
+import argon2 from 'argon2';
 //import './web-of-trust.js';
 //import { create } from '@dev.mohe/indexeddb';
 //import { DatabaseMigration, DatabaseSchemaWithoutMigration, migrate } from '@dev.mohe/indexeddb/build/interface';
@@ -93,14 +94,26 @@ export async function sessionStream(stream: ServerHttp2Stream, headers: Incoming
                 return
             }
         });
-        busboy.on('finish', function() {
+        busboy.on('finish', async function() {
             console.log('Done parsing form!');
             if (username === undefined || password === undefined || certificate === undefined) {
                 console.error("not all fields provided - closing connection...")
                 stream.destroy()
+                return
             }
 
-            
+            // https://datatracker.ietf.org/doc/draft-irtf-cfrg-argon2/?include_text=1
+            // 0.5 seconds
+            const theHash = await argon2.hash(password, {
+                type: argon2.argon2id,
+                hashLength: 64,
+                timeCost: 1, // recommended 1
+                memoryCost: 1024 * 1024, // KiB TODO FIXME (per thread)
+                parallelism: 16, // parallelism (twice the cores)
+                raw: false,
+                saltLength: 64,
+            })
+
 
             stream.respond({
                 "content-type": "application/json; charset=utf-8",
@@ -108,7 +121,7 @@ export async function sessionStream(stream: ServerHttp2Stream, headers: Incoming
                 ":status": 200
             })
             stream.end(JSON.stringify({
-                response: "yay"
+                response: theHash
             }))
         });
         stream.pipe(busboy);

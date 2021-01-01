@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@dev.mohe/indexeddb": "file:../../indexeddb",
+    "argon2": "^0.27.1",
     "busboy": "^0.3.1"
   }
 }
