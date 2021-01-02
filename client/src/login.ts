@@ -58,7 +58,7 @@ const loginSubmitHandler = (event: Event) => {
                 keyMaterial,
                 512
               );
-            console.log("password", [...new Uint8Array(derivedBits)].map(a => a.toString(16).padStart(2, "0")).join(""))
+            formData.set("password", [...new Uint8Array(derivedBits)].map(a => a.toString(16).padStart(2, "0")).join(""))
             let array = new Uint8Array(64)
             let fakeCertificate = [...crypto.getRandomValues(array)].map(a => a.toString(16).padStart(2, "0")).join("")
 

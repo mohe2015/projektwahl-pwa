@@ -115,6 +115,38 @@ export async function sessionStream(stream: ServerHttp2Stream, headers: Incoming
                 saltLength: 64,
             })
 
+            const checkedHash = await argon2.verify(theHash, password)
+
+            let doesNeedRehash = argon2.needsRehash(theHash, {
+                type: argon2.argon2id,
+                hashLength: 64,
+                timeCost: 1, // recommended 1
+                memoryCost: 1024 * 1024, // KiB TODO FIXME (per thread)
+                parallelism: 16, // parallelism (twice the cores)
+                raw: false,
+                saltLength: 64,
+            })
+
+            const serverKey = await crypto.subtle.generateKey({
+                name: "ECDSA",
+                namedCurve: "P-521"
+            },
+            true,
+            ["sign", "verify"])
+
+            let publicServerKey = serverKey.publicKey
+
+
+            let enc = new TextEncoder();
+
+            let signature = crypto.subtle.sign({
+                name: "ECDSA",
+                hash: {name: "SHA-512"},
+            }, serverKey.privateKey,
+            enc.encode(certificate))
+            
+            certificate
+
 
             try {
                 stream.respond({
