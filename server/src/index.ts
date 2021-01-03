@@ -27,6 +27,11 @@ import { readFileSync } from 'fs';
 import { parse } from "url";
 import Busboy from 'busboy';
 import argon2 from 'argon2';
+/// <reference path="nodejs.d.ts" />
+import { sign, webcrypto as crypto } from 'crypto';
+
+
+
 //import './web-of-trust.js';
 //import { create } from '@dev.mohe/indexeddb';
 //import { DatabaseMigration, DatabaseSchemaWithoutMigration, migrate } from '@dev.mohe/indexeddb/build/interface';
@@ -127,21 +132,23 @@ export async function sessionStream(stream: ServerHttp2Stream, headers: Incoming
                 saltLength: 64,
             })
 
+            // don't use ECDSA because of snowden
             const serverKey = await crypto.subtle.generateKey({
-                name: "ECDSA",
-                namedCurve: "P-521"
+                name: "RSA-PSS",
+                modulusLength: 4096,
+                publicExponent: new Uint8Array([1, 0, 1]),
+                hash: "SHA-512"
             },
             true,
             ["sign", "verify"])
 
             let publicServerKey = serverKey.publicKey
 
-
             let enc = new TextEncoder();
 
-            let signature = crypto.subtle.sign({
-                name: "ECDSA",
-                hash: {name: "SHA-512"},
+            let signature = await crypto.subtle.sign({
+                name: "RSA-PSS",
+                saltLength: 512/8
             }, serverKey.privateKey,
             enc.encode(certificate))
             
@@ -155,7 +162,8 @@ export async function sessionStream(stream: ServerHttp2Stream, headers: Incoming
                     ":status": 200
                 })
                 stream.end(JSON.stringify({
-                    response: theHash
+                    response: theHash,
+                    signature: [...new Uint8Array(signature)].map(a => a.toString(16).padStart(2, "0")).join("")
                 }))
             } catch (error) { console.trace(error) }
         });
