@@ -26,7 +26,6 @@
 
 // https://github.com/diafygi/webcrypto-examples#rsa-pss---generatekey
 
-// @ts-expect-error
 import { webcrypto } from 'crypto';
 
 const crypto: { subtle: SubtleCrypto } = webcrypto
