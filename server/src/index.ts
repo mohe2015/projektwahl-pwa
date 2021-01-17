@@ -28,7 +28,7 @@ import { parse } from "url";
 import Busboy from 'busboy';
 import argon2 from 'argon2';
 /// <reference path="nodejs.d.ts" />
-import { sign, webcrypto as crypto } from 'crypto';
+import { webcrypto as crypto } from 'crypto';
 
 
 
