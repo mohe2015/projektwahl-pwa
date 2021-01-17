@@ -26,6 +26,13 @@ import { WebrtcProvider } from 'y-webrtc'
 import { WebsocketProvider } from 'y-websocket'
 import { IndexeddbPersistence } from 'y-indexeddb'
 
+// TODO FIXME authorization
+// https://github.com/yjs/yjs/issues/79
+// https://github.com/yjs/yjs/issues/234
+// https://docs.yjs.dev/api/subdocuments
+// https://discuss.yjs.dev/t/attribution-of-changes/291/6
+// https://github.com/yjs/y-protocols/blob/master/auth.js
+
 const ydoc = new Y.Doc()
 
 // this allows you to instantly get the (cached) documents data
@@ -34,21 +41,23 @@ indexeddbProvider.whenSynced.then(() => {
   console.log('loaded data from indexed db')
 })
 
+// TODO FIXME either the signaling server or the other clients should check whether you are autorized to get that data.
 // Sync clients with the y-webrtc provider.
-const webrtcProvider = new WebrtcProvider('count-demo', ydoc)
+// @ts-expect-error
+const webrtcProvider = new WebrtcProvider('count-demo', ydoc, { password: 'optional-room-password', signaling: ['ws://localhost:4444'] })
 
 // Sync clients with the y-websocket provider
 const websocketProvider = new WebsocketProvider(
-  'wss://demos.yjs.dev', 'count-demo', ydoc
+  'ws://localhost:1234', 'count-demo', ydoc
 )
 
 // array of numbers which produce a sum
-const yarray = ydoc.getArray('count')
+const yarray = ydoc.getArray<number>('count')
 
 // observe changes of the sum
 yarray.observe(event => {
   // print updates when the data changes
-  console.log('new sum: ' + yarray.toArray().reduce((a,b) => a + b))
+  console.log('new sum: ' + yarray.toArray().reduce((a, b) => a + b))
 })
 
 // add 1 to the sum

@@ -23,6 +23,7 @@
  */
 import './error-handler';
 import './router'
+import './yjs'
 //import './web-of-trust';
 
 /*
